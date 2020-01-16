@@ -1,26 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {Component} from 'react';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+
+state  = {
+news: []
+}
+
+getData = () => {
+  fetch("http://hn.algolia.com/api/v1/search?query=...")
+  .then(response => response.json())
+  .then(data => this.setState({ news: data.hits}));
+}
+
+componentDidMount () {
+  this.getData();  
+}
+
+
+render () {
+  console.log(this.state.news)
+    return ( 
+      <div>
+        <form><input type="text" placeholder="Search by.."/></form>
+    
+        {this.state.news.map((news, index) => (
+          <div>
+            Title:{news.title}<br/>
+            Author:{news.author}</div>
+        ))}
+      </div>
+    )
+  }
 }
 
 export default App;
