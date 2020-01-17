@@ -1,14 +1,24 @@
 import React, {Component} from 'react';
 import './App.css';
+import Story from './Story'
 
 class App extends Component {
+  constructor(props) {
+  super(props)
 
-state  = {
-news: []
+  this.state  = {
+  news: [],
+  filter: ''
+  
 }
 
-getData = () => {
-  fetch("http://hn.algolia.com/api/v1/search?query=..")
+this.handleChange = this.handleChange.bind(this);
+this.search = this.search.bind(this);
+
+}
+
+getData = (x) => {
+  fetch(`http://hn.algolia.com/api/v1/search?query=${x}`)
   .then(response => response.json())
   .then(data => this.setState({ news: data.hits}));
 }
@@ -17,9 +27,20 @@ componentDidMount () {
   this.getData();  
 }
 
+search (e) {
+  this.getData(this.state.filter)
+ e.preventDefault();
+}
+
+handleChange (e) {
+ this.setState({filter: e.target.value})
+}
 
 render () {
-  console.log(this.state.news)
+  
+const {filter, news } = this.state
+
+
     return ( 
       <div>
         Sort by: 
@@ -30,16 +51,18 @@ render () {
         <form><input 
         type="text" 
         placeholder="Search by.."
-        // value={this.state.news}
-
-        />
+        value={filter}
+        onChange={this.handleChange}/>
+        <button onClick={this.search}>Search</button>
         </form>
     
-        {this.state.news.map((news, index) => (
+        {news.map((news, index) => (
           <div>
-            Title:{news.title}<br/>
-            Author:{news.author}<br/>
-            Date and Time Created:{news.created_at}
+           <Story
+           title={news.title}
+           author={news.author}
+           created={news.created_at}
+           />
           </div>
         ))}
       </div>
