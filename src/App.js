@@ -8,7 +8,7 @@ news: []
 }
 
 getData = () => {
-  fetch("http://hn.algolia.com/api/v1/search?query=...")
+  fetch("http://hn.algolia.com/api/v1/search?tags=author_panny")
   .then(response => response.json())
   .then(data => this.setState({ news: data.hits}));
 }
@@ -22,12 +22,15 @@ render () {
   console.log(this.state.news)
     return ( 
       <div>
+        Sort by: 
+        {/* <select>
+        <option value="Author"></option>
+        </select> */}
+
         <form><input 
         type="text" 
         placeholder="Search by.."
-        value={this.state.news}
-
-
+        // value={this.state.news}
 
         />
         </form>
@@ -35,7 +38,9 @@ render () {
         {this.state.news.map((news, index) => (
           <div>
             Title:{news.title}<br/>
-            Author:{news.author}</div>
+            Author:{news.author}<br/>
+            Date and Time Created:{news.created_at}
+          </div>
         ))}
       </div>
     )
