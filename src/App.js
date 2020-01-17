@@ -22,7 +22,15 @@ render () {
   console.log(this.state.news)
     return ( 
       <div>
-        <form><input type="text" placeholder="Search by.."/></form>
+        <form><input 
+        type="text" 
+        placeholder="Search by.."
+        value={this.state.news}
+
+
+
+        />
+        </form>
     
         {this.state.news.map((news, index) => (
           <div>
