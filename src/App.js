@@ -8,7 +8,7 @@ news: []
 }
 
 getData = () => {
-  fetch("http://hn.algolia.com/api/v1/search?tags=author_panny")
+  fetch("http://hn.algolia.com/api/v1/search?query=..")
   .then(response => response.json())
   .then(data => this.setState({ news: data.hits}));
 }
